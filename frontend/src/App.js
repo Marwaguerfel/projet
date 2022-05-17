@@ -31,6 +31,8 @@ import GroupEditScreen from './screens/GroupEditScreen';
 import ComponentStateListScreen from './screens/CompStateListScreen';
 import CompStateCreateScreen from './screens/compStateCreateScreen';
 import CompStateEditScreen from './screens/CompStateEditScreen';
+import ComponentListScreen from './screens/ComponentListScreen';
+import ComponentsCreateScreen from './screens/ComponentCreateScreen';
 
 
 
@@ -112,13 +114,16 @@ function App() {
                 <Link  to="/taskThemesList"> Task Themes</Link>
               </li>
               <li>
-                <Link  to="/taskStatesList"> Task States</Link>
+                <Link  to="/taskModelsList"> Task Models</Link>
               </li>
               <li>
-                <Link  to="/taskModelsList"> Task Models</Link>
+                <Link  to="/componentsList"> Components  </Link>
               </li>
                <li>
                 <Link  to="/compStateList"> Components States </Link>
+              </li>
+              <li>
+                <Link  to="/taskStatesList"> Task States</Link>
               </li>
               </ul>:<h5></h5>
            
@@ -154,6 +159,9 @@ function App() {
           
         <main>
           <Routes>
+          <Route path='/components/CreateComponents' element={<ComponentsCreateScreen />}></Route>           
+
+              <Route path='/componentsList' element={<ComponentListScreen/>}></Route>
               <Route path='/compState/:id/edit' element={<CompStateEditScreen/>}></Route>
               <Route path='/compState/CreateCompState' element={<CompStateCreateScreen />}></Route>           
               <Route path='/compStateList' element={<ComponentStateListScreen/>}></Route>

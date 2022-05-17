@@ -65,6 +65,13 @@ import {
          compStateCreateReducer,
          compStateDetailsReducer
 } from './reducers/compStateReducers'
+import {
+  componentsListReducer,
+  componentsDeleteReducer,
+  componentsUpdateReducer,
+  componentsCreateReducer,
+  componentsDetailsReducer
+} from './reducers/componentsReducers'
 
 const initialState = {
   userSignin: {
@@ -115,7 +122,12 @@ const reducer = combineReducers({
     compStateDelete:compStateDeleteReducer,
     compStateUpdate:compStateUpdateReducer,
     compStateCreate:compStateCreateReducer,
-    compStateDetails:compStateDetailsReducer
+    compStateDetails:compStateDetailsReducer,
+    componentsList:componentsListReducer,
+    componentsDelete:componentsDeleteReducer,
+    componentsUpdate:componentsUpdateReducer,
+    componentsCreate:componentsCreateReducer,
+    componentsDetails:componentsDetailsReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

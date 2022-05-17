@@ -1,25 +1,25 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deleteComponent,listComoponents } from '../actions/componentActions';
+import { deleteComponents,listComponents } from '../actions/componentsActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { COMPONENT_DETAILS_RESET } from '../constants/componentConstants';
+import { COMPONENTS_DETAILS_RESET } from '../constants/componentsConstants';
 
 
 
 
 export default function ComponentListScreen(props) {
-  const componentList = useSelector((state) => state.componentList);
-  const { loading, error, components } = componentList;
+  const componentsList = useSelector((state) => state.componentsList);
+  const { loading, error, components } = componentsList;
   const dispatch = useDispatch();
   const navigate=useNavigate();
-  const componentDelete = useSelector((state) => state.componentDelete);
+  const componentsDelete = useSelector((state) => state.componentsDelete);
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
-  } = componentDelete;
+  } = componentsDelete;
 
 
    
@@ -27,7 +27,7 @@ export default function ComponentListScreen(props) {
        dispatch(listComponents());
 
     dispatch({
-      type: COMPONENT_DETAILS_RESET,
+      type: COMPONENTS_DETAILS_RESET,
     });
     
    }, [dispatch, successDelete]);
@@ -38,7 +38,7 @@ export default function ComponentListScreen(props) {
 
    const deleteHandler = (component) => {
     if (window.confirm('Are you sure?')) {
-      dispatch(deleteComponent(component._id));
+      dispatch(deleteComponents(component._id));
     }
   };
   return (
@@ -46,7 +46,7 @@ export default function ComponentListScreen(props) {
       <button 
        type="button"
       className="big"
-      onClick={() => navigate(`/component/CreateComponent`)}> create task State</button>
+      onClick={() => navigate(`/components/CreateComponents`)}> create component</button>
       <h1>task State</h1>
       {loadingDelete && <LoadingBox></LoadingBox>}
       {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
@@ -64,6 +64,9 @@ export default function ComponentListScreen(props) {
             <tr>
               <th>NAME</th>
               <th>DESCRIPTION</th>
+              <th>TASK THEME REF</th>
+              <th>TASK MODEL REF</th>
+
               <th>ACTIONS</th>
             </tr>
           </thead>
@@ -75,6 +78,9 @@ export default function ComponentListScreen(props) {
               <tr key={component._id}>
                 <td>{component.name}</td>
                 <td>{component.description}</td>
+                <td>{component.taskTheme.name}</td>
+                <td>{component.taskModel.name}</td>
+
                 <td>
                  <button
                     type="button"

@@ -1,44 +1,58 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CreateComponent} from '../actions/taskModelActions';
+import {listTaskModels} from '../actions/taskModelActions';
 import {listTaskThemes} from '../actions/taskThemeActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import {useNavigate } from 'react-router-dom';
-import {COMPONENT_DETAILS_RESET} from '../constants/taskThemeConstants'
+import {TASKMODEL_DETAILS_RESET} from '../constants/taskModelConstants'
+import {TASKTHEME_DETAILS_RESET} from '../constants/taskThemeConstants'
+
+import { CreateComponenets } from '../actions/componentsActions';
 //na9sa select option mt3 task theme
 
-export default function ComponentCreateScreen(props) {
+export default function ComponentsCreateScreen(props) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  //
-  const  Create= useSelector((state) => state.Component);
-  const { taskModel,loading, error } = componentStateCreate;
+  const [taskTheme,setTaskTheme]= useState('');
+  const [taskModel,setTaskModel]= useState('');
+  const taskThemeList = useSelector((state) => state.taskThemeList);
+  const { taskThemes } = taskThemeList;
+  const taskModelList = useSelector((state) => state.taskModelList);
+  const { taskModels } = taskModelList;
+  const navigate=useNavigate();
+  const  componentsCreate= useSelector((state) => state.componentsCreate);
+  const { components,loading, error } = componentsCreate;
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(Create Component(name, description,Component));
+    dispatch(CreateComponenets(name, description,taskTheme,taskModel));
   };
     useEffect(() => {
-       dispatch(listTaskModel());
+       dispatch(listTaskModels());
         dispatch({
-      type: TASK_MODEL_DETAILS_RESET,
+      type: TASKMODEL_DETAILS_RESET,
+
     });
+    
+    dispatch(listTaskThemes());
+    dispatch({
+  type: TASKTHEME_DETAILS_RESET,})
     
    }, [dispatch]);
   
   useEffect(() => {
-    if (taskModel) {
-      navigate('/taskModelsList')
+    if (components) {
+      navigate('/componentsList')
     }
-  },[navigate,taskModel,taskThemes]);
+  },[navigate,taskModel,components,taskTheme]);
 
   return (
     <div>
       <form className="form" onSubmit={submitHandler}>
         <div>
-          <h1>Create component</h1>
+          <h1>Create Component </h1>
         </div>
         {loading && <LoadingBox></LoadingBox>}
         {error && <MessageBox variant="danger">{error}</MessageBox>}
@@ -63,27 +77,54 @@ export default function ComponentCreateScreen(props) {
             onChange={(e) => setDescription(e.target.value)}
           ></input>
         </div>
+
+
         <div>
-          <label htmlFor='componentRef'>component Ref</label>
+          <label htmlFor='taskThemeRef'>task Theme Ref</label>
           <select 
-            onChange={(e) => {setComponent(e.target.value)
+            onChange={(e) => {setTaskTheme(e.target.value)
             console.log("hello",e.target)
-            console.log(component)}
+            console.log(taskThemes)}
           }
           
           > 
                   
-            { component?.component?.map((component)=>
+            { taskThemes?.taskThemes?.map((taskTheme)=>
             
             <option  
-            value={component._id}
-            key ={component._id}
-            >{component.name}</option>
+            value={taskTheme._id}
+            key ={taskTheme._id}
+            >{taskTheme.name}</option>
             )}
             <option defaultValue >chose...</option>
           </select>
 
         </div>
+
+        <div>
+          <label htmlFor='taskModelRef'>task Model Ref</label>
+          <select 
+            onChange={(e) => {setTaskModel(e.target.value)
+            console.log("hello",e.target)
+            console.log(taskModels)}
+          }
+          
+          > 
+                  
+            { taskModels?.taskModels?.map((taskModel)=>
+                          
+            <option  
+            value={taskModel._id}
+            key ={taskModel._id}
+            >{taskModel.name}</option>
+            )}
+            <option defaultValue >chose...</option>
+          </select>
+
+        </div>
+
+        
+
         <div>
          <button className="primary" type="submit">
             Create
