@@ -1,41 +1,44 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deleteTaskModel,listTaskModels } from '../actions/taskModelActions';
+import { deleteTask,listTask } from '../actions/taskActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { TASKMODEL_DETAILS_RESET } from '../constants/taskModelConstants';
+import {TASK_DETAILS_RESET } from '../constants/taskConstants';
 
 
 
 
-export default function TaskModelListScreen(props) {
-  const taskModelList = useSelector((Model) => Model.taskModelList);
-  const { loading, error, taskModels } = taskModelList;
+export default function TaskListScreen(props) {
+  const taskList = useSelector((state) => state.taskList);
+  const { loading, error, task } = taskList;
   const dispatch = useDispatch();
   const navigate=useNavigate();
-  const taskModelDelete = useSelector((Model) => Model.taskModelDelete);
+  const taskDelete = useSelector((state) => state.taskDelete);
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
-  } = taskModelDelete;
+  } = taskDelete;
 
 
    
   useEffect(() => {
-       dispatch(listTaskModels());
+       dispatch(listTask());
 
     dispatch({
-      type: TASKMODEL_DETAILS_RESET,
+      type: TASK_DETAILS_RESET,
     });
     
    }, [dispatch, successDelete]);
 
+   useEffect(()=>{
+     console.log(task);
+   })
 
-   const deleteHandler = (taskModel) => {
+   const deleteHandler = (task) => {
     if (window.confirm('Are you sure?')) {
-      dispatch(deleteTaskModel(taskModel._id));
+      dispatch(deleteTask(task._id));
     }
   };
   return (
@@ -43,12 +46,12 @@ export default function TaskModelListScreen(props) {
       <button 
        type="button"
       className="big"
-      onClick={() => navigate(`/taskModel/CreateTaskModel`)}> create task Model</button>
-      <h1>task Model</h1>
+      onClick={() => navigate(`/tasks/CreateTask`)}> create Task</button>
+      <h1>task </h1>
       {loadingDelete && <LoadingBox></LoadingBox>}
       {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
       {successDelete && (
-      <MessageBox variant="success">task Model Deleted Successfully</MessageBox>
+      <MessageBox variant="success">component Deleted Successfully</MessageBox>
       )}
       {loading ? (
         <LoadingBox></LoadingBox>
@@ -61,32 +64,42 @@ export default function TaskModelListScreen(props) {
             <tr>
               <th>NAME</th>
               <th>DESCRIPTION</th>
-              <th>TASK THEME REF</th>
+              <th>TASK THEME </th>
+              <th>TASK MODEL </th>
+              <th>WEEK</th>
+              <th>START DATE</th>  
+              <th>END DATE</th>  
+              <th>USER</th>  
+              <th>STATUS</th>  
               <th>ACTIONS</th>
             </tr>
           </thead>
           
           <tbody>
-            {console.log(taskModels.taskModels.taskTheme)}
-            {taskModels.taskModels.length >0 &&
-             taskModels.taskModels.map((taskModel) => (
-               
-              <tr key={taskModel._id}>
-                <td>{taskModel.name}</td>
-                <td>{taskModel.description}</td>
-                <td>{taskModel.taskTheme.name}</td>
+            
+            {task.task.length >0 &&
+             task.task.map((task) => (
+              <tr key={task._id}>
+                <td>{task.name}</td>
+                <td>{task.description}</td>
+                <td>{task.taskTheme.name}</td>
+                <td>{task.taskModel.name}</td>
+                <td>{task.user.firstName}</td>
+                <td>{task.startDate}</td>
+                <td>{task.endDate}</td>
+                <td>{task.taskState}</td>
                 <td>
-                 <button
+                 <button                
                     type="button"
                     className="small"
-                    onClick={() => navigate(`/taskModel/${taskModel._id}/edit`)}
+                    onClick={() => navigate(`/task/${task._id}/edit`)}
                   >
                     Edit
                     </button>
                   <button
                     type="button"
                     className="small"
-                    onClick={() => deleteHandler(taskModel)}
+                    onClick={() => deleteHandler(task)}
                   >
                     Delete
                   </button>

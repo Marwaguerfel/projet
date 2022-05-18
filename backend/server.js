@@ -9,6 +9,8 @@ import taskModelRouter from './routers/taskMoRouter.js';
 import systemRouter from './routers/systemRouter.js';
 import groupRouter from './routers/groupRouter.js' 
 import componentStateRouter from './routers/compStateRouter.js'
+import taskRouter from './routers/taskRouter.js'
+import componentsRouter from './routers/componentsRouter.js'
 dotenv.config();
 
 
@@ -24,6 +26,8 @@ mongoose.connect('mongodb://localhost/projet', /*{//mahabech ymchi b hethi lazem
   useUnifiedTopology: true,
   useCreateIndex: true,
 }*/);
+app.use('/api/tasks',taskRouter);
+app.use('/api/components',componentsRouter);
 app.use('/api/compState',componentStateRouter);
 app.use('/api/groups',groupRouter);
 app.use('/api/systems',systemRouter)

@@ -73,6 +73,14 @@ import {
   componentsDetailsReducer
 } from './reducers/componentsReducers'
 
+import {
+  taskListReducer,
+  taskDeleteReducer,
+  taskUpdateReducer,
+  taskCreateReducer,
+  taskDetailsReducer
+} from './reducers/taskReducers'
+
 const initialState = {
   userSignin: {
     userInfo: localStorage.getItem('userInfo')
@@ -127,7 +135,12 @@ const reducer = combineReducers({
     componentsDelete:componentsDeleteReducer,
     componentsUpdate:componentsUpdateReducer,
     componentsCreate:componentsCreateReducer,
-    componentsDetails:componentsDetailsReducer
+    componentsDetails:componentsDetailsReducer,
+    taskList:taskListReducer,
+    taskDelete:taskDeleteReducer,
+    taskUpdate:taskUpdateReducer,
+    taskCreate:taskCreateReducer,
+    taskDetails:taskDetailsReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

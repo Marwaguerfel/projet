@@ -33,7 +33,7 @@ import CompStateCreateScreen from './screens/compStateCreateScreen';
 import CompStateEditScreen from './screens/CompStateEditScreen';
 import ComponentListScreen from './screens/ComponentListScreen';
 import ComponentsCreateScreen from './screens/ComponentCreateScreen';
-
+import TaskListScreen from './screens/TaskListScreen';
 
 
 function App() {
@@ -111,6 +111,9 @@ function App() {
         { userInfo && (userInfo.isAdmin||userInfo.isSuperAdmin) ?
                <ul>
               <li>
+                <Link  to="/taskList"> Tasks </Link>
+              </li>
+              <li>
                 <Link  to="/taskThemesList"> Task Themes</Link>
               </li>
               <li>
@@ -128,12 +131,11 @@ function App() {
               </ul>:<h5></h5>
            
            }
-           <hr></hr>
-          <h5>Settings</h5>
-                     <hr></hr>
 
           { userInfo && userInfo.isSuperAdmin ?
+          
            <ul>
+             <h5>settings</h5>
                <li>
                 <Link  to="/systemList"> Systems </Link>
               </li>
@@ -159,8 +161,8 @@ function App() {
           
         <main>
           <Routes>
-          <Route path='/components/CreateComponents' element={<ComponentsCreateScreen />}></Route>           
-
+              <Route path='/taskList' element={<TaskListScreen/>}></Route>
+              <Route path='/components/CreateComponents' element={<ComponentsCreateScreen />}></Route>           
               <Route path='/componentsList' element={<ComponentListScreen/>}></Route>
               <Route path='/compState/:id/edit' element={<CompStateEditScreen/>}></Route>
               <Route path='/compState/CreateCompState' element={<CompStateCreateScreen />}></Route>           
