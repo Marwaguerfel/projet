@@ -7,6 +7,7 @@ const TaskSchema = new mongoose.Schema(
     taskTheme: { type: mongoose.Schema.Types.ObjectID, ref: "taskTheme" },
     taskModel: { type: mongoose.Schema.Types.ObjectID, ref: "taskModel" },
     week:{ type: mongoose.Schema.Types.ObjectID, ref: "week" },
+    system:{ type: mongoose.Schema.Types.ObjectID, ref: "System" },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     user: { type: mongoose.Schema.Types.ObjectID, ref: "user" },

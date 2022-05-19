@@ -34,6 +34,7 @@ import CompStateEditScreen from './screens/CompStateEditScreen';
 import ComponentListScreen from './screens/ComponentListScreen';
 import ComponentsCreateScreen from './screens/ComponentCreateScreen';
 import TaskListScreen from './screens/TaskListScreen';
+import TaskCreateScreen from './screens/taskCreateScreen';
 
 
 function App() {
@@ -161,6 +162,7 @@ function App() {
           
         <main>
           <Routes>
+              <Route path='/tasks/CreateTask' element={<TaskCreateScreen />}></Route>           
               <Route path='/taskList' element={<TaskListScreen/>}></Route>
               <Route path='/components/CreateComponents' element={<ComponentsCreateScreen />}></Route>           
               <Route path='/componentsList' element={<ComponentListScreen/>}></Route>

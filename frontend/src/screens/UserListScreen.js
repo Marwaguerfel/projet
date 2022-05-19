@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate,useParams,Link} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { deleteUser,listUsers} from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -13,10 +13,9 @@ import { USER_DETAILS_RESET } from '../constants/userConstants';
 
 export default function UserListScreen(props) {
   const [search,setSearch]=useState('');
-  const { pageNumber = 1 } = useParams();
 
   const userList = useSelector((state) => state.userList);
-  const { loading, error, users,  page, pages } = userList;
+  const { loading, error, users, } = userList;
   const dispatch = useDispatch();
   const navigate=useNavigate();
   const userDelete = useSelector((state) => state.userDelete);
@@ -26,15 +25,21 @@ export default function UserListScreen(props) {
     success: successDelete,
   } = userDelete;
 
+  const role =(user)=>{
+  if (user.isSuperAdmin===true) {    
+     return"super admin"}
+     else if (user.isAdmin===true){
+     return "admin"} 
+     else {
+     return "Dispatcher"}}    
 
    
   useEffect(() => {
-    dispatch(listUsers({search,pageNumber}));
-
+    dispatch(listUsers());
     dispatch({
       type: USER_DETAILS_RESET,
     });
-   }, [dispatch, successDelete,search,pageNumber,]);
+   }, [dispatch, successDelete]);
 
   const deleteHandler = (user) => {
     if (window.confirm('Are you sure?')) {
@@ -42,20 +47,10 @@ export default function UserListScreen(props) {
     }
   };
 
-  const getFilterUrl = (filter) => {
-    const filterPage = filter.page || pageNumber;
-       return `/usersList/pageNumber/${filterPage}`;
-  };
     
 
 
-  const role =(user)=>{
-     if (user.isSuperAdmin===true) {    
-        return"super admin"}
-        else if (user.isAdmin===true){
-        return "admin"} 
-        else {
-        return "Dispatcher"}}      
+   
   return (
     <div>
       <div align="right">
@@ -103,7 +98,7 @@ export default function UserListScreen(props) {
           
           <tbody>
             {
-            users.users.map((user) => (
+            users.users.filter(user => user.firstName.toLowerCase().includes(search.toLowerCase())).map((user) => (
               <tr key={user._id}>
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
@@ -130,17 +125,7 @@ export default function UserListScreen(props) {
           </tbody>
         </table>
       )}
-       <div className="row center pagination">
-                {[...Array(pages).keys()].map((x) => (
-                  <Link
-                    className={x + 1 === page ? 'active' : ''}
-                    key={x + 1}
-                    to={getFilterUrl({ page: x + 1 })}
-                  >
-                    {x + 1}
-                  </Link>
-                ))}
-              </div>
+      
     </div>
   )
 }

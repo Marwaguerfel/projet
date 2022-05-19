@@ -83,24 +83,12 @@ userRouter.get(
   //isAuth,
  
   expressAsyncHandler(async (req, res) => {
-    const pageSize = 2;
-    const page = Number(req.query.pageNumber) || 1;
-    const search=req.query.search||"";
-    const skip =pageSize * (page - 1)
-    if (search===""){
-      const users = (await User.find()
-        .skip(skip)
-        .limit(pageSize));;
-         const count = await User .count();
-         const pages= Math.ceil(count/ pageSize);
-         res.send({ page, pages ,pageSize,users})
-    }else{
-       const users = (await User.find()
-       ).filter(user => user.firstName.toLowerCase().includes(search.toLowerCase())); 
+        const users = await User.find();
+                 res.send({ users}); 
        
-         res.send({users})
+     
 
-  }}
+  }
 ));
 
 

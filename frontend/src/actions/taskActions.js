@@ -17,7 +17,7 @@ import {
   TASK_DETAILS_SUCCESS
 } from '../constants/taskConstants';
 
-export const CreateTask = (name,description,taskTheme,taskModel,week,startDate,endDate,user,taskState,report) => async (dispatch,getState) => {
+export const CreateTask = (name,description,week,user,startDate,endDate,taskTheme,taskModel,component,taskState) => async (dispatch,getState) => {
   dispatch({ type:TASK_CREATE_REQUEST });
   try {
      const {
@@ -26,14 +26,15 @@ export const CreateTask = (name,description,taskTheme,taskModel,week,startDate,e
     const { data } = await Axios.post('/api/task/create', {
       name,
       description,
-      taskTheme,
-      taskModel,
       week,
+      user,
       startDate,
       endDate,
-      user,
+      taskTheme,
+      taskModel,
+      component,
       taskState,
-      report
+      
     },{ 
      headers: {
         Authorization: `Bearer ${userInfo.token}`,

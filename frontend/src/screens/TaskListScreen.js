@@ -69,6 +69,7 @@ export default function TaskListScreen(props) {
               <th>WEEK</th>
               <th>START DATE</th>  
               <th>END DATE</th>  
+              <th>SYSTEM</th>
               <th>USER</th>  
               <th>STATUS</th>  
               <th>ACTIONS</th>
@@ -84,6 +85,7 @@ export default function TaskListScreen(props) {
                 <td>{task.description}</td>
                 <td>{task.taskTheme.name}</td>
                 <td>{task.taskModel.name}</td>
+                <td>{task.week.name}</td>
                 <td>{task.user.firstName}</td>
                 <td>{task.startDate}</td>
                 <td>{task.endDate}</td>
